@@ -5,6 +5,7 @@ import car from './car';
 import car_manifacturer from './car_manifacturer';
 import circuit from './circuit';
 import team from './team';
+import championship from './championship';
 
 const router = Router();
 
@@ -17,5 +18,7 @@ router.use('/car_manifacturer', car_manifacturer);
 router.use('/circuit', circuit);
 
 router.use('/team', team);
+
+router.use('/championship', championship);
 
 export default router;
