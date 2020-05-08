@@ -24,11 +24,8 @@ html {
   background-size: auto;
 }
 
-.background-image.animal::before {
-  background-image: url('https://source.unsplash.com/collection/1571607/960x540');
-}
-.background-image.random::before {
-  background-image: url('https://res.cloudinary.com/dxiqa0xwa/image/upload/v1587123341/happypuppy/etc/0.png');
+.background-image.cars::before {
+  background-image: url('https://source.unsplash.com/1600x900/?sport car,car');
 }
 
 /* Margin & Padding helpers */

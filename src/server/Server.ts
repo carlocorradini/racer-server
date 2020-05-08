@@ -12,7 +12,7 @@ import hbshelpers from 'handlebars-helpers';
 import logger from '@app/logger';
 import routes from '@app/route';
 import { NotFoundMiddleware, ErrorMiddleware } from '@app/middleware';
-import { EmailService, PhoneService, ImageService } from '@app/service';
+import { EmailService, ImageService } from '@app/service';
 
 export default class Server {
   public static readonly DEFAULT_PORT = 0;
@@ -57,7 +57,6 @@ export default class Server {
       .use(ErrorMiddleware.handle);
 
     EmailService.configure();
-    PhoneService.configure();
     ImageService.configure();
   }
 

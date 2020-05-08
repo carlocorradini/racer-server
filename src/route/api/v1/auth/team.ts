@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { checkSchema } from 'express-validator';
 import { ValidatorMiddleware } from '@app/middleware';
-import { AnimalPersonalityController } from '@app/controller';
+import { TeamController } from '@app/controller';
 
 const router = Router();
 
@@ -47,7 +47,7 @@ router.get(
       },
     })
   ),
-  AnimalPersonalityController.find
+  TeamController.find
 );
 
 router.get(
@@ -57,11 +57,11 @@ router.get(
       id: {
         in: ['params'],
         isInt: true,
-        errorMessage: 'Invalid Personality id',
+        errorMessage: 'Invalid Team id',
       },
     })
   ),
-  AnimalPersonalityController.findById
+  TeamController.findById
 );
 
 export default router;

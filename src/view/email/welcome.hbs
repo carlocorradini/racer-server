@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Happy Puppy | OTP code</title>
+    <title>Racer | Welcome</title>
     <style type="text/css">
         *,
         *:before,
@@ -41,29 +41,29 @@
             height: 100%;
             color: #000;
             background-color: #effdfd;
-            background-image: url("https://res.cloudinary.com/dxiqa0xwa/image/upload/v1586683572/happypuppy/email/91d04d64-4361-4d9f-ba9e-35c99f68f41a_j2wz7r.png");
+            background-image: url("https://res.cloudinary.com/dxiqa0xwa/image/upload/v1588938635/racer/email/af184c24-ef77-46cc-9ba5-3045fc9e546a.jpg");
             background-size: cover;
             background-position: center;
         }
         
         .card__content {
             position: absolute;
-            top: 150px;
-            left: 475px;
-        }
-        
-        .card__otp {
-            margin-left: -4px;
-            font-size: 75px;
-            font-weight: bold;
-            line-height: 1;
-            text-transform: uppercase;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 5px;
+            background-color: #ffffff;
         }
         
         .card__text {
             max-width: 390px;
-            font-size: 16px;
+            font-size: 3em;
             font-weight: bold;
+            text-align: center;
         }
         
         .card__logo {
@@ -72,7 +72,7 @@
             bottom: 15px;
             width: 50px;
             height: 50px;
-            background-image: url("https://res.cloudinary.com/dxiqa0xwa/image/upload/v1586681456/happypuppy/logo/logo.png");
+            background-image: url("https://res.cloudinary.com/dxiqa0xwa/image/upload/v1588938375/racer/logo/logo.png");
             background-size: cover;
             background-position: center;
         }
@@ -83,10 +83,9 @@
     <div class="card-wrapper">
         <div class="card">
             <div class="card__content">
-                <div class="card__otp">{{ otp_code }}</div>
                 <div class="card__text">
                     <p>Hi {{ username }}</p>
-                    <p>Welcome to Happy Puppy</p>
+                    <p>Welcome to Racer</p>
                 </div>
             </div>
             <div class="card__logo" />

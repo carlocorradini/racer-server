@@ -1,13 +1,9 @@
 import { Router } from 'express';
 import jwt from 'express-jwt';
 import config from '@app/config';
-// eslint-disable-next-line camelcase
-import user_verification from './user_verification';
 import auth from './auth';
 
 const router = Router();
-
-router.use('/user_verification', user_verification);
 
 router.use(
   '/auth',

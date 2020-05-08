@@ -1,8 +1,7 @@
 import { Router } from 'express';
 import { checkSchema } from 'express-validator';
 import { ValidatorMiddleware } from '@app/middleware';
-import { AnimalPlaceController } from '@app/controller';
-import { AnimalPlaceType } from '@app/db/entity/AnimalPlace';
+import { CarManifacturerController } from '@app/controller';
 
 const router = Router();
 
@@ -46,32 +45,9 @@ router.get(
         isString: true,
         optional: true,
       },
-      type: {
-        in: ['query'],
-        isIn: { options: [Object.values(AnimalPlaceType)] },
-        optional: true,
-      },
-      latitude: {
-        in: ['query'],
-        isFloat: true,
-        toFloat: true,
-        optional: true,
-      },
-      longitude: {
-        in: ['query'],
-        isFloat: true,
-        toFloat: true,
-        optional: true,
-      },
-      radius: {
-        in: ['query'],
-        isInt: true,
-        toInt: true,
-        optional: true,
-      },
     })
   ),
-  AnimalPlaceController.find
+  CarManifacturerController.find
 );
 
 router.get(
@@ -81,11 +57,11 @@ router.get(
       id: {
         in: ['params'],
         isInt: true,
-        errorMessage: 'Invalid Animal Park id',
+        errorMessage: 'Invalid Car Manifacturer id',
       },
     })
   ),
-  AnimalPlaceController.findById
+  CarManifacturerController.findById
 );
 
 export default router;

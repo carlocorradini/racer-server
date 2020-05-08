@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { checkSchema } from 'express-validator';
 import { ValidatorMiddleware } from '@app/middleware';
-import { AnimalBreedController } from '@app/controller';
+import { CircuitController } from '@app/controller';
 
 const router = Router();
 
@@ -45,15 +45,9 @@ router.get(
         isString: true,
         optional: true,
       },
-      specie: {
-        in: ['query'],
-        isInt: true,
-        toInt: true,
-        optional: true,
-      },
     })
   ),
-  AnimalBreedController.find
+  CircuitController.find
 );
 
 router.get(
@@ -63,11 +57,11 @@ router.get(
       id: {
         in: ['params'],
         isInt: true,
-        errorMessage: 'Invalid Animal Breed id',
+        errorMessage: 'Invalid Circuit id',
       },
     })
   ),
-  AnimalBreedController.findById
+  CircuitController.findById
 );
 
 export default router;

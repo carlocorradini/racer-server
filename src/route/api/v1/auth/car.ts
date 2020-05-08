@@ -1,8 +1,7 @@
 import { Router } from 'express';
 import { checkSchema } from 'express-validator';
 import { ValidatorMiddleware } from '@app/middleware';
-import { AnimalSpecieController } from '@app/controller';
-import { IsNumberArray } from '@app/common/validator/chain';
+import { CarController } from '@app/controller';
 
 const router = Router();
 
@@ -46,17 +45,15 @@ router.get(
         isString: true,
         optional: true,
       },
-      breeds: {
+      manifacturer: {
         in: ['query'],
-        isString: true,
-        custom: {
-          options: IsNumberArray,
-        },
+        isInt: true,
+        toInt: true,
         optional: true,
       },
     })
   ),
-  AnimalSpecieController.find
+  CarController.find
 );
 
 router.get(
@@ -66,11 +63,11 @@ router.get(
       id: {
         in: ['params'],
         isInt: true,
-        errorMessage: 'Invalid Animal Specie id',
+        errorMessage: 'Invalid Car id',
       },
     })
   ),
-  AnimalSpecieController.findById
+  CarController.findById
 );
 
 export default router;

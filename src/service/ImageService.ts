@@ -11,7 +11,7 @@ export enum ImageType {
 }
 
 export interface ImageTypeFolders extends Record<ImageType, string[]> {
-  [ImageType.AVATAR]: ['user/avatar', 'puppy/avatar'];
+  [ImageType.AVATAR]: ['user/avatar'];
 }
 
 export const ImageTypeOptions: Record<ImageType, cloudinary.UploadApiOptions> = {
@@ -48,7 +48,7 @@ export default class ImageService {
       format: 'png',
       unique_filename: true,
       discard_original_filename: true,
-      folder: `happypuppy/upload/`,
+      folder: `racer/upload/`,
     };
 
     this.configured = true;
