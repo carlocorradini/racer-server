@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Happy Puppy | OTP code</title>
+    <style type="text/css">
+        *,
+        *:before,
+        *:after {
+            box-sizing: inherit;
+            line-height: inherit;
+        }
+        
+        html {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 12px;
+            line-height: 1.5;
+            color: #676767;
+        }
+        
+        .card-wrapper {
+            position: relative;
+            width: 840px;
+            height: 440px;
+            box-shadow: 0px 0px 100px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .card {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            color: #000;
+            background-color: #effdfd;
+            background-image: url("https://res.cloudinary.com/dxiqa0xwa/image/upload/v1586683572/happypuppy/email/91d04d64-4361-4d9f-ba9e-35c99f68f41a_j2wz7r.png");
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .card__content {
+            position: absolute;
+            top: 150px;
+            left: 475px;
+        }
+        
+        .card__otp {
+            margin-left: -4px;
+            font-size: 75px;
+            font-weight: bold;
+            line-height: 1;
+            text-transform: uppercase;
+        }
+        
+        .card__text {
+            max-width: 390px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .card__logo {
+            position: absolute;
+            right: 15px;
+            bottom: 15px;
+            width: 50px;
+            height: 50px;
+            background-image: url("https://res.cloudinary.com/dxiqa0xwa/image/upload/v1586681456/happypuppy/logo/logo.png");
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card-wrapper">
+        <div class="card">
+            <div class="card__content">
+                <div class="card__otp">{{ otp_code }}</div>
+                <div class="card__text">
+                    <p>Hi {{ username }}</p>
+                    <p>Welcome to Happy Puppy</p>
+                </div>
+            </div>
+            <div class="card__logo" />
+        </div>
+    </div>
+</body>
+
+</html>
