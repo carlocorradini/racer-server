@@ -4,6 +4,7 @@ import User, { UserValidationGroup, UserGender, UserRole } from '@app/db/entity/
 import UserPasswordReset from '@app/db/entity/UserPasswordReset';
 import { UserController } from '@app/controller';
 import { ValidatorMiddleware, FileMiddleware } from '@app/middleware';
+import { IsNumberArray } from '@app/common/validator/chain';
 
 const router = Router();
 
@@ -69,6 +70,44 @@ router.get(
       date_of_birth: {
         in: ['query'],
         isISO8601: true,
+        optional: true,
+      },
+      team: {
+        in: ['query'],
+        isInt: true,
+        toInt: true,
+        optional: true,
+      },
+      favorite_number: {
+        in: ['query'],
+        isInt: true,
+        toInt: true,
+        optional: true,
+      },
+      favorite_car: {
+        in: ['query'],
+        isInt: true,
+        toInt: true,
+        optional: true,
+      },
+      favorite_circuit: {
+        in: ['query'],
+        isInt: true,
+        toInt: true,
+        optional: true,
+      },
+      hated_circuit: {
+        in: ['query'],
+        isInt: true,
+        toInt: true,
+        optional: true,
+      },
+      championships: {
+        in: ['query'],
+        isString: true,
+        custom: {
+          options: IsNumberArray,
+        },
         optional: true,
       },
       created_at: {

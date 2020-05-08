@@ -5,10 +5,16 @@ import { getManager } from 'typeorm';
 import logger from '@app/logger';
 import Championship from '@app/db/entity/Championship';
 import { ResponseHelper, HttpStatusCode } from '@app/helper';
+import { StringUtil, ArrayUtil } from '@app/util';
+// eslint-disable-next-line no-unused-vars
+import UserChampionship from '@app/db/entity/UserChampionship';
 
 export default class ChampionshipController {
   public static find(req: Request, res: Response): void {
-    const { limit, offset, sort, sort_order, id, name } = req.query;
+    const { limit, offset, sort, sort_order, id, name, cars, users } = req.query;
+
+    const carsArray: number[] = StringUtil.toNumberArray(cars as string);
+    const usersArray: string[] = StringUtil.toUUIDArray(users as string);
 
     getManager()
       .find(Championship, {
@@ -27,6 +33,19 @@ export default class ChampionshipController {
         },
       })
       .then((championships) => {
+        // eslint-disable-next-line no-param-reassign
+        championships = championships.filter(
+          (championship) =>
+            ArrayUtil.contains(championship.users, usersArray) &&
+            ArrayUtil.contains(championship.cars, carsArray)
+        );
+        championships.forEach((championship) => {
+          // eslint-disable-next-line no-param-reassign
+          championship.users = (championship.users.map(
+            (user) => user.user.id
+          ) as unknown) as UserChampionship[];
+        });
+
         logger.info(`Found ${championships.length} Championships`);
 
         ResponseHelper.send(res, HttpStatusCode.OK, championships);
@@ -44,6 +63,11 @@ export default class ChampionshipController {
     getManager()
       .findOneOrFail(Championship, id, { loadRelationIds: true })
       .then((championship) => {
+        // eslint-disable-next-line no-param-reassign
+        championship.users = (championship.users.map(
+          (user) => user.user.id
+        ) as unknown) as UserChampionship[];
+
         logger.info(`Found Championship ${championship.id}`);
 
         ResponseHelper.send(res, HttpStatusCode.OK, championship);

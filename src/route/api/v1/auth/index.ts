@@ -1,5 +1,7 @@
 import { Router } from 'express';
 import user from './user';
+// eslint-disable-next-line camelcase
+import user_championship from './user_championship';
 import car from './car';
 // eslint-disable-next-line camelcase
 import car_manifacturer from './car_manifacturer';
@@ -10,6 +12,8 @@ import championship from './championship';
 const router = Router();
 
 router.use('/user', user);
+
+router.use('/user_championship', user_championship);
 
 router.use('/car', car);
 

@@ -10,6 +10,7 @@ import {
   BeforeUpdate,
   ManyToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 import {
   IsString,
@@ -27,6 +28,7 @@ import { HasNoWhitespace, IsValidTeam, IsValidCar, IsValidCircuit } from '@app/c
 import Car from './Car';
 import Circuit from './Circuit';
 import Team from './Team';
+import UserChampionship from './UserChampionship';
 
 export enum UserValidationGroup {
   // eslint-disable-next-line no-unused-vars
@@ -166,6 +168,10 @@ export default class User {
   @IsValidCircuit({ groups: [UserValidationGroup.CREATION, UserValidationGroup.UPDATE] })
   @IsOptional({ groups: [UserValidationGroup.CREATION, UserValidationGroup.UPDATE] })
   hated_circuit!: Circuit;
+
+  @OneToMany(() => UserChampionship, (userChampionship) => userChampionship.user)
+  @IsEmpty({ always: true })
+  championships!: UserChampionship[];
 
   @CreateDateColumn({ name: 'created_at', update: false })
   @IsEmpty({ always: true })

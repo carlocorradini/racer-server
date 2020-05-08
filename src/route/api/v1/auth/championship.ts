@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { checkSchema } from 'express-validator';
 import { ValidatorMiddleware } from '@app/middleware';
 import { ChampionshipController } from '@app/controller';
+import { IsUUIDArray, IsNumberArray } from '@app/common/validator/chain';
 
 const router = Router();
 
@@ -43,6 +44,22 @@ router.get(
       name: {
         in: ['query'],
         isString: true,
+        optional: true,
+      },
+      cars: {
+        in: ['query'],
+        isString: true,
+        custom: {
+          options: IsNumberArray,
+        },
+        optional: true,
+      },
+      users: {
+        in: ['query'],
+        isString: true,
+        custom: {
+          options: IsUUIDArray,
+        },
         optional: true,
       },
     })
