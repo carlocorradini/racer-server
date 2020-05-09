@@ -22,4 +22,23 @@ export default class UserRoleMiddleware {
       } else next();
     };
   }
+
+  public static allowOnlyWhenParams(roles: UserRole | UserRole[], params: string | string[]) {
+    const roleArray: UserRole[] = Array.isArray(roles) ? roles : [roles];
+    const paramArray: string[] = Array.isArray(params) ? params : [params];
+
+    return async (req: Request, res: Response, next: NextFunction) => {
+      if (
+        req.user === undefined ||
+        req.user.role === undefined ||
+        (paramArray.filter((param) => req.body[param] !== undefined).length !== 0 &&
+          !roleArray.includes(req.user.role))
+      ) {
+        logger.warn(
+          `User ${req.user?.id} with role ${req.user?.role} has not been authorized when params for ${req.method} -> ${req.originalUrl}`
+        );
+        ResponseHelper.send(res, HttpStatusCode.UNAUTHORIZED);
+      } else next();
+    };
+  }
 }

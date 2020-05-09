@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { Entity, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn, Column } from 'typeorm';
 import { IsEmpty, IsInt, IsPositive, IsOptional } from 'class-validator';
 import {
   IsValidCar,
@@ -67,6 +67,13 @@ export default class UserChampionship {
   })
   @IsOptional({ groups: [UserChampionshipValidationGroup.UPDATE] })
   team!: Team;
+
+  @Column({ name: 'points', type: 'smallint', default: 0 })
+  @IsInt({ groups: [UserChampionshipValidationGroup.UPDATE] })
+  @IsPositive({ groups: [UserChampionshipValidationGroup.UPDATE] })
+  @IsOptional({ groups: [UserChampionshipValidationGroup.UPDATE] })
+  @IsEmpty({ groups: [UserChampionshipValidationGroup.CREATION] })
+  points!: number;
 
   @CreateDateColumn({ name: 'created_at', update: false })
   @IsEmpty({ always: true })

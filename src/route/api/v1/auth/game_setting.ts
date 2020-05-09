@@ -1,8 +1,7 @@
 import { Router } from 'express';
 import { checkSchema } from 'express-validator';
 import { ValidatorMiddleware } from '@app/middleware';
-import { ChampionshipController } from '@app/controller';
-import { IsUUIDArray, IsNumberArray } from '@app/common/validator/chain';
+import { GameSettingController } from '@app/controller';
 
 const router = Router();
 
@@ -46,41 +45,9 @@ router.get(
         isString: true,
         optional: true,
       },
-      cars: {
-        in: ['query'],
-        isString: true,
-        custom: {
-          options: IsNumberArray,
-        },
-        optional: true,
-      },
-      users: {
-        in: ['query'],
-        isString: true,
-        custom: {
-          options: IsUUIDArray,
-        },
-        optional: true,
-      },
-      circuits: {
-        in: ['query'],
-        isString: true,
-        custom: {
-          options: IsNumberArray,
-        },
-        optional: true,
-      },
-      game_settings: {
-        in: ['query'],
-        isString: true,
-        custom: {
-          options: IsNumberArray,
-        },
-        optional: true,
-      },
     })
   ),
-  ChampionshipController.find
+  GameSettingController.find
 );
 
 router.get(
@@ -90,11 +57,11 @@ router.get(
       id: {
         in: ['params'],
         isInt: true,
-        errorMessage: 'Invalid Championship id',
+        errorMessage: 'Invalid Game Setting id',
       },
     })
   ),
-  ChampionshipController.findById
+  GameSettingController.findById
 );
 
 export default router;

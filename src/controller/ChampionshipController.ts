@@ -10,14 +10,28 @@ import { StringUtil, ArrayUtil } from '@app/util';
 import UserChampionship from '@app/db/entity/UserChampionship';
 // eslint-disable-next-line no-unused-vars
 import ChampionshipCircuit from '@app/db/entity/ChampionshipCircuit';
+// eslint-disable-next-line no-unused-vars
+import ChampionshipGameSetting from '@app/db/entity/ChampionshipGameSetting';
 
 export default class ChampionshipController {
   public static find(req: Request, res: Response): void {
-    const { limit, offset, sort, sort_order, id, name, cars, users, circuits } = req.query;
+    const {
+      limit,
+      offset,
+      sort,
+      sort_order,
+      id,
+      name,
+      cars,
+      users,
+      circuits,
+      game_settings,
+    } = req.query;
 
     const carsArray: number[] = StringUtil.toNumberArray(cars as string);
     const usersArray: string[] = StringUtil.toUUIDArray(users as string);
     const circuitsArray: number[] = StringUtil.toNumberArray(circuits as string);
+    const gameSettingsArray: number[] = StringUtil.toNumberArray(game_settings as string);
 
     getManager()
       .find(Championship, {
@@ -45,13 +59,18 @@ export default class ChampionshipController {
           championship.circuits = championship.circuits.map(
             (circuit) => circuit.circuit.id as unknown
           ) as ChampionshipCircuit[];
+          // eslint-disable-next-line no-param-reassign
+          championship.game_settings = championship.game_settings.map(
+            (game_setting) => game_setting.game_setting.id as unknown
+          ) as ChampionshipGameSetting[];
         });
         // eslint-disable-next-line no-param-reassign
         championships = championships.filter(
           (championship) =>
             ArrayUtil.contains(championship.cars, carsArray) &&
             ArrayUtil.contains(championship.users, usersArray) &&
-            ArrayUtil.contains(championship.circuits, circuitsArray)
+            ArrayUtil.contains(championship.circuits, circuitsArray) &&
+            ArrayUtil.contains(championship.game_settings, gameSettingsArray)
         );
 
         logger.info(`Found ${championships.length} Championships`);

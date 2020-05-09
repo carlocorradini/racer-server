@@ -6,3 +6,5 @@ export { default as TeamController } from './TeamController';
 export { default as ChampionshipController } from './ChampionshipController';
 export { default as UserChampionshipController } from './UserChampionshipController';
 export { default as ChampionshipCircuitController } from './ChampionshipCircuitController';
+export { default as GameSettingController } from './GameSettingController';
+export { default as ChampionshipGameSettingController } from './ChampionshipGameSettingController';

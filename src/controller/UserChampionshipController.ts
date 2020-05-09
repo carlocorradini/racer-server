@@ -22,6 +22,7 @@ export default class UserChampionshipController {
       championship,
       car,
       team,
+      points,
       created_at,
     } = req.query;
 
@@ -41,6 +42,7 @@ export default class UserChampionshipController {
           ...(championship !== undefined && { championship }),
           ...(car !== undefined && { car }),
           ...(team !== undefined && { team }),
+          ...(points !== undefined && { points }),
           ...(created_at !== undefined && {
             created_at: Between(
               moment(`${created_at}T00:00:00.000`),

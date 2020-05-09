@@ -1,20 +1,13 @@
-// eslint-disable-next-line no-unused-vars
-import { Router, Request, Response, NextFunction } from 'express';
+import { Router } from 'express';
 import { checkSchema } from 'express-validator';
 import { ValidatorMiddleware, UserRoleMiddleware } from '@app/middleware';
-import { UserChampionshipController } from '@app/controller';
-import UserChampionship, { UserChampionshipValidationGroup } from '@app/db/entity/UserChampionship';
+import { ChampionshipGameSettingController } from '@app/controller';
 import { UserRole } from '@app/db/entity/User';
+import ChampionshipGameSetting, {
+  ChampionshipGameSettingValidationGroup,
+} from '@app/db/entity/ChampionshipGameSetting';
 
 const router = Router();
-
-const addChampionshipToBody = () => {
-  return (req: Request, _res: Response, next: NextFunction) => {
-    const { id } = req.params;
-    if (id !== undefined) req.body.championship = Number.parseInt(id, 0);
-    next();
-  };
-};
 
 router.get(
   '',
@@ -45,47 +38,25 @@ router.get(
         },
         optional: true,
       },
-      user: {
-        in: ['query'],
-        isUUID: true,
-        optional: true,
-      },
       championship: {
         in: ['query'],
         isInt: true,
         toInt: true,
         optional: true,
       },
-      car: {
+      game_setting: {
         in: ['query'],
         isInt: true,
         toInt: true,
-        optional: true,
-      },
-      team: {
-        in: ['query'],
-        isInt: true,
-        toInt: true,
-        optional: true,
-      },
-      points: {
-        in: ['query'],
-        isInt: true,
-        toInt: true,
-        optional: true,
-      },
-      created_at: {
-        in: ['query'],
-        isISO8601: true,
         optional: true,
       },
     })
   ),
-  UserChampionshipController.find
+  ChampionshipGameSettingController.find
 );
 
 router.get(
-  '/:championship/:user?',
+  '/:championship/:game_setting',
   ValidatorMiddleware.validateChain(
     checkSchema({
       championship: {
@@ -93,52 +64,68 @@ router.get(
         isInt: true,
         errorMessage: 'Invalid Championship id',
       },
-      user: {
+      game_setting: {
         in: ['params'],
-        isUUID: true,
-        errorMessage: 'Invalid User id',
-        optional: true,
+        isInt: true,
+        errorMessage: 'Invalid Game Setting id',
       },
     })
   ),
-  UserChampionshipController.findById
+  ChampionshipGameSettingController.findById
 );
 
 router.post(
   '',
-  ValidatorMiddleware.validateClass(UserChampionship, UserChampionshipValidationGroup.CREATION),
-  UserChampionshipController.create
+  UserRoleMiddleware.allowOnly(UserRole.ADMIN),
+  ValidatorMiddleware.validateClass(
+    ChampionshipGameSetting,
+    ChampionshipGameSettingValidationGroup.CREATION
+  ),
+  ChampionshipGameSettingController.create
 );
 
 router.patch(
-  '/:id',
-  UserRoleMiddleware.allowOnlyWhenParams(UserRole.ADMIN, 'points'),
-  addChampionshipToBody(),
+  '/:championship/:game_setting',
+  UserRoleMiddleware.allowOnly(UserRole.ADMIN),
   ValidatorMiddleware.validateChain(
     checkSchema({
-      id: {
+      championship: {
         in: ['params'],
         isInt: true,
         errorMessage: 'Invalid Championship id',
       },
+      game_setting: {
+        in: ['params'],
+        isInt: true,
+        errorMessage: 'Invalid Game Setting id',
+      },
     })
   ),
-  ValidatorMiddleware.validateClass(UserChampionship, UserChampionshipValidationGroup.UPDATE),
-  UserChampionshipController.update
+  ValidatorMiddleware.validateClass(
+    ChampionshipGameSetting,
+    ChampionshipGameSettingValidationGroup.UPDATE
+  ),
+  ChampionshipGameSettingController.update
 );
 
 router.delete(
-  '/:id',
+  '/:championship/:game_setting',
+  UserRoleMiddleware.allowOnly(UserRole.ADMIN),
   ValidatorMiddleware.validateChain(
     checkSchema({
-      id: {
+      championship: {
         in: ['params'],
         isInt: true,
         errorMessage: 'Invalid Championship id',
       },
+      game_setting: {
+        in: ['params'],
+        isInt: true,
+        errorMessage: 'Invalid Game Setting id',
+      },
     })
   ),
-  UserChampionshipController.delete
+  ChampionshipGameSettingController.delete
 );
 
 export default router;
