@@ -22,12 +22,12 @@ import {
   IsISO8601,
   IsInt,
   IsPositive,
+  Max,
 } from 'class-validator';
 import { CryptUtil } from '@app/util';
-import { HasNoWhitespace, IsValidTeam, IsValidCar, IsValidCircuit } from '@app/common/validator';
+import { HasNoWhitespace, IsValidCar, IsValidCircuit } from '@app/common/validator';
 import Car from './Car';
 import Circuit from './Circuit';
-import Team from './Team';
 import UserChampionship from './UserChampionship';
 
 export enum UserValidationGroup {
@@ -131,17 +131,10 @@ export default class User {
   @IsEmpty({ always: true })
   avatar!: string;
 
-  @ManyToOne(() => Team, (team) => team.users, { nullable: true, onDelete: 'SET NULL' })
-  @JoinColumn({ name: 'team_id' })
-  @IsInt({ groups: [UserValidationGroup.CREATION, UserValidationGroup.UPDATE] })
-  @IsPositive({ groups: [UserValidationGroup.CREATION, UserValidationGroup.UPDATE] })
-  @IsValidTeam({ groups: [UserValidationGroup.CREATION, UserValidationGroup.UPDATE] })
-  @IsOptional({ groups: [UserValidationGroup.CREATION, UserValidationGroup.UPDATE] })
-  team!: Team;
-
   @Column({ name: 'favorite_number', type: 'smallint' })
   @IsInt({ groups: [UserValidationGroup.CREATION, UserValidationGroup.UPDATE] })
   @IsPositive({ groups: [UserValidationGroup.CREATION, UserValidationGroup.UPDATE] })
+  @Max(99, { groups: [UserValidationGroup.CREATION, UserValidationGroup.UPDATE] })
   @IsOptional({ groups: [UserValidationGroup.UPDATE] })
   favorite_number!: number;
 

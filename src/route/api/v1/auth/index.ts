@@ -8,6 +8,8 @@ import car_manifacturer from './car_manifacturer';
 import circuit from './circuit';
 import team from './team';
 import championship from './championship';
+// eslint-disable-next-line camelcase
+import championship_circuit from './championship_circuit';
 
 const router = Router();
 
@@ -24,5 +26,7 @@ router.use('/circuit', circuit);
 router.use('/team', team);
 
 router.use('/championship', championship);
+
+router.use('/championship_circuit', championship_circuit);
 
 export default router;

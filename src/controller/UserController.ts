@@ -29,7 +29,6 @@ export default class UserController {
       surname,
       gender,
       date_of_birth,
-      team,
       favorite_number,
       favorite_car,
       favorite_circuit,
@@ -59,7 +58,6 @@ export default class UserController {
           ...(surname !== undefined && { surname }),
           ...(gender !== undefined && { gender }),
           ...(date_of_birth !== undefined && { date_of_birth }),
-          ...(team !== undefined && { team }),
           ...(favorite_number !== undefined && { favorite_number }),
           ...(favorite_car !== undefined && { favorite_car }),
           ...(favorite_circuit !== undefined && { favorite_circuit }),
@@ -73,14 +71,14 @@ export default class UserController {
         },
       })
       .then((users) => {
-        // eslint-disable-next-line no-param-reassign
-        users = users.filter((user) => ArrayUtil.contains(user.championships, championshipsArray));
         users.forEach((user) => {
           // eslint-disable-next-line no-param-reassign
           user.championships = (user.championships.map(
             (championship) => championship.championship.id
           ) as unknown) as UserChampionship[];
         });
+        // eslint-disable-next-line no-param-reassign
+        users = users.filter((user) => ArrayUtil.contains(user.championships, championshipsArray));
 
         logger.info(`Found ${users.length} Users`);
 

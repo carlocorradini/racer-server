@@ -26,7 +26,7 @@ export default class UserRepository extends AbstractRepository<User> {
     const foundUser: User = await this.manager.findOneOrFail(
       User,
       { username: user.username },
-      { select: ['id', 'username', 'password'] }
+      { select: ['id', 'username', 'password', 'role'] }
     );
     await CryptUtil.compareOrFail(user.password, foundUser.password);
     return JWTHelper.sign({

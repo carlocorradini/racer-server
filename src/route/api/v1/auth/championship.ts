@@ -62,6 +62,14 @@ router.get(
         },
         optional: true,
       },
+      circuits: {
+        in: ['query'],
+        isString: true,
+        custom: {
+          options: IsNumberArray,
+        },
+        optional: true,
+      },
     })
   ),
   ChampionshipController.find

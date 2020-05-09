@@ -72,12 +72,6 @@ router.get(
         isISO8601: true,
         optional: true,
       },
-      team: {
-        in: ['query'],
-        isInt: true,
-        toInt: true,
-        optional: true,
-      },
       favorite_number: {
         in: ['query'],
         isInt: true,

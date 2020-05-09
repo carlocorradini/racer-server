@@ -14,6 +14,7 @@ import {
 import { IsEmpty } from 'class-validator';
 import UserChampionship from './UserChampionship';
 import Car from './Car';
+import ChampionshipCircuit from './ChampionshipCircuit';
 
 @Entity('championship')
 @Check(`"id" > 0`)
@@ -45,6 +46,9 @@ export default class Championship {
 
   @OneToMany(() => UserChampionship, (userChampionship) => userChampionship.championship)
   users!: UserChampionship[];
+
+  @OneToMany(() => ChampionshipCircuit, (championshipCircuit) => championshipCircuit.championship)
+  circuits!: ChampionshipCircuit[];
 
   @CreateDateColumn({ name: 'created_at', select: false, update: false })
   @IsEmpty({ always: true })
