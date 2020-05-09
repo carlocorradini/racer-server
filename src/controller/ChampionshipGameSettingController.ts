@@ -44,7 +44,7 @@ export default class ChampionshipGameSettingController {
 
   public static findById(req: Request, res: Response): void {
     const championship = getManager().create(Championship, {
-      id: Number.parseInt(req.params.championship, 0),
+      id: Number.parseInt(req.params.championship, 10),
     });
     const game_setting = getManager().create(GameSetting, {
       id: Number.parseInt(req.params.game_setting, 10),
@@ -111,10 +111,10 @@ export default class ChampionshipGameSettingController {
   public static update(req: Request, res: Response): void {
     const championshipGameSetting: ChampionshipGameSetting = req.app.locals.ChampionshipGameSetting;
     championshipGameSetting.championship = getManager().create(Championship, {
-      id: Number.parseInt(req.params.championship, 0),
+      id: Number.parseInt(req.params.championship, 10),
     });
     championshipGameSetting.game_setting = getManager().create(GameSetting, {
-      id: Number.parseInt(req.params.game_setting, 0),
+      id: Number.parseInt(req.params.game_setting, 10),
     });
 
     getCustomRepository(ChampionshipGameSettingRepository)
@@ -143,10 +143,10 @@ export default class ChampionshipGameSettingController {
       ChampionshipGameSetting,
       {
         championship: getManager().create(Championship, {
-          id: Number.parseInt(req.params.championship, 0),
+          id: Number.parseInt(req.params.championship, 10),
         }),
         game_setting: getManager().create(GameSetting, {
-          id: Number.parseInt(req.params.game_setting, 0),
+          id: Number.parseInt(req.params.game_setting, 10),
         }),
       }
     );

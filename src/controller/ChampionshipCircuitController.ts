@@ -45,7 +45,7 @@ export default class ChampionshipCircuitController {
 
   public static findById(req: Request, res: Response): void {
     const championship = getManager().create(Championship, {
-      id: Number.parseInt(req.params.championship, 0),
+      id: Number.parseInt(req.params.championship, 10),
     });
     const circuit = getManager().create(Circuit, {
       id: Number.parseInt(req.params.circuit, 10),
@@ -108,10 +108,10 @@ export default class ChampionshipCircuitController {
   public static update(req: Request, res: Response): void {
     const championshipCircuit: ChampionshipCircuit = req.app.locals.ChampionshipCircuit;
     championshipCircuit.championship = getManager().create(Championship, {
-      id: Number.parseInt(req.params.championship, 0),
+      id: Number.parseInt(req.params.championship, 10),
     });
     championshipCircuit.circuit = getManager().create(Circuit, {
-      id: Number.parseInt(req.params.circuit, 0),
+      id: Number.parseInt(req.params.circuit, 10),
     });
 
     getCustomRepository(ChampionshipCircuitRepository)
@@ -138,10 +138,10 @@ export default class ChampionshipCircuitController {
   public static delete(req: Request, res: Response): void {
     const championshipCircuit: ChampionshipCircuit = getManager().create(ChampionshipCircuit, {
       championship: getManager().create(Championship, {
-        id: Number.parseInt(req.params.championship, 0),
+        id: Number.parseInt(req.params.championship, 10),
       }),
       circuit: getManager().create(Circuit, {
-        id: Number.parseInt(req.params.circuit, 0),
+        id: Number.parseInt(req.params.circuit, 10),
       }),
     });
 

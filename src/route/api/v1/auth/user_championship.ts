@@ -11,7 +11,7 @@ const router = Router();
 const addChampionshipToBody = () => {
   return (req: Request, _res: Response, next: NextFunction) => {
     const { id } = req.params;
-    if (id !== undefined) req.body.championship = Number.parseInt(id, 0);
+    if (id !== undefined) req.body.championship = Number.parseInt(id, 10);
     next();
   };
 };

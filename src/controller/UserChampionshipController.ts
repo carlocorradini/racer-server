@@ -68,7 +68,7 @@ export default class UserChampionshipController {
       id: req.params.user !== undefined ? req.params.user : req.user?.id,
     });
     const championship = getManager().create(Championship, {
-      id: Number.parseInt(req.params.championship, 0),
+      id: Number.parseInt(req.params.championship, 10),
     });
 
     getManager()
@@ -127,7 +127,7 @@ export default class UserChampionshipController {
     const userChampionship: UserChampionship = req.app.locals.UserChampionship;
     userChampionship.user = getManager().create(User, { id: req.user?.id ? req.user.id : '' });
     userChampionship.championship = getManager().create(Championship, {
-      id: Number.parseInt(req.params.id, 0),
+      id: Number.parseInt(req.params.id, 10),
     });
 
     getCustomRepository(UserChampionshipRepository)
@@ -155,7 +155,7 @@ export default class UserChampionshipController {
     const userChampionship: UserChampionship = getManager().create(UserChampionship, {
       user: getManager().create(User, { id: req.user?.id ? req.user.id : '' }),
       championship: getManager().create(Championship, {
-        id: Number.parseInt(req.params.id, 0),
+        id: Number.parseInt(req.params.id, 10),
       }),
     });
 
