@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { checkSchema } from 'express-validator';
 import { ValidatorMiddleware } from '@app/middleware';
-import { CarManifacturerController } from '@app/controller';
+import { CarManufacturerController } from '@app/controller';
 
 const router = Router();
 
@@ -47,7 +47,7 @@ router.get(
       },
     })
   ),
-  CarManifacturerController.find
+  CarManufacturerController.find
 );
 
 router.get(
@@ -61,7 +61,7 @@ router.get(
       },
     })
   ),
-  CarManifacturerController.findById
+  CarManufacturerController.findById
 );
 
 export default router;

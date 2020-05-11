@@ -8,7 +8,7 @@ import { ResponseHelper, HttpStatusCode } from '@app/helper';
 
 export default class CarController {
   public static find(req: Request, res: Response): void {
-    const { limit, offset, sort, sort_order, id, name, manifacturer } = req.query;
+    const { limit, offset, sort, sort_order, id, name, manufacturer } = req.query;
 
     getManager()
       .find(Car, {
@@ -24,7 +24,7 @@ export default class CarController {
         where: {
           ...(id !== undefined && { id }),
           ...(name !== undefined && { name }),
-          ...(manifacturer !== undefined && { manifacturer }),
+          ...(manufacturer !== undefined && { manufacturer }),
         },
       })
       .then((cars) => {

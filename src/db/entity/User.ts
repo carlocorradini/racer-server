@@ -11,6 +11,7 @@ import {
   ManyToOne,
   JoinColumn,
   OneToMany,
+  Check,
 } from 'typeorm';
 import {
   IsString,
@@ -56,6 +57,7 @@ export enum UserRole {
 }
 
 @Entity('user')
+@Check(`"favorite_circuit_id" <> "hated_circuit_id"`)
 export default class User {
   @PrimaryGeneratedColumn('uuid', { name: 'id' })
   @Index()
@@ -107,7 +109,6 @@ export default class User {
     type: 'enum',
     enum: UserGender,
     default: UserGender.UNKNOWN,
-    update: false,
   })
   @IsEnum(UserGender, { groups: [UserValidationGroup.CREATION, UserValidationGroup.UPDATE] })
   @IsOptional({ groups: [UserValidationGroup.CREATION, UserValidationGroup.UPDATE] })

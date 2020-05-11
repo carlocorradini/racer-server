@@ -65,7 +65,7 @@ export default class UserChampionshipController {
 
   public static findById(req: Request, res: Response): void {
     const user = getManager().create(User, {
-      id: req.params.user !== undefined ? req.params.user : req.user?.id,
+      id: req.params.user,
     });
     const championship = getManager().create(Championship, {
       id: Number.parseInt(req.params.championship, 10),
@@ -93,6 +93,34 @@ export default class UserChampionshipController {
 
         if (ex.name === 'EntityNotFound') ResponseHelper.send(res, HttpStatusCode.NOT_FOUND);
         else ResponseHelper.send(res, HttpStatusCode.INTERNAL_SERVER_ERROR);
+      });
+  }
+
+  public static findByChampionshipId(req: Request, res: Response): void {
+    const championship = getManager().create(Championship, {
+      id: Number.parseInt(req.params.championship, 10),
+    });
+
+    getManager()
+      .find(UserChampionship, {
+        loadRelationIds: true,
+        where: {
+          championship,
+        },
+      })
+      .then((userChampionships) => {
+        logger.info(
+          `Found ${userChampionships.length} User Championships of championship ${championship.id}`
+        );
+
+        ResponseHelper.send(res, HttpStatusCode.OK, userChampionships);
+      })
+      .catch((ex) => {
+        logger.warn(
+          `Failed to find User Championships of championship ${championship.id} due to ${ex.message}`
+        );
+
+        ResponseHelper.send(res, HttpStatusCode.INTERNAL_SERVER_ERROR);
       });
   }
 
@@ -127,7 +155,7 @@ export default class UserChampionshipController {
     const userChampionship: UserChampionship = req.app.locals.UserChampionship;
     userChampionship.user = getManager().create(User, { id: req.user?.id ? req.user.id : '' });
     userChampionship.championship = getManager().create(Championship, {
-      id: Number.parseInt(req.params.id, 10),
+      id: Number.parseInt(req.params.championship, 10),
     });
 
     getCustomRepository(UserChampionshipRepository)
@@ -155,7 +183,7 @@ export default class UserChampionshipController {
     const userChampionship: UserChampionship = getManager().create(UserChampionship, {
       user: getManager().create(User, { id: req.user?.id ? req.user.id : '' }),
       championship: getManager().create(Championship, {
-        id: Number.parseInt(req.params.id, 10),
+        id: Number.parseInt(req.params.championship, 10),
       }),
     });
 

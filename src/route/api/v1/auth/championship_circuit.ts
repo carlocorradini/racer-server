@@ -61,6 +61,20 @@ router.get(
 );
 
 router.get(
+  '/:championship',
+  ValidatorMiddleware.validateChain(
+    checkSchema({
+      championship: {
+        in: ['params'],
+        isInt: true,
+        errorMessage: 'Invalid Championship id',
+      },
+    })
+  ),
+  ChampionshipCircuitController.findByChampionshipId
+);
+
+router.get(
   '/:championship/:circuit',
   ValidatorMiddleware.validateChain(
     checkSchema({

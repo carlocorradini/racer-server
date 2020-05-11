@@ -12,9 +12,9 @@ import {
 import { IsEmpty } from 'class-validator';
 import Car from './Car';
 
-@Entity('car_manifacturer')
+@Entity('car_manufacturer')
 @Check(`"id" > 0`)
-export default class CarManifacturer {
+export default class CarManufacturer {
   @PrimaryColumn({ name: 'id' })
   @Index()
   id!: number;
@@ -22,7 +22,7 @@ export default class CarManifacturer {
   @Column({ name: 'name', length: 64, unique: true })
   name!: string;
 
-  @OneToMany(() => Car, (car) => car.manifacturer)
+  @OneToMany(() => Car, (car) => car.manufacturer)
   cars!: Car[];
 
   @CreateDateColumn({ name: 'created_at', select: false, update: false })

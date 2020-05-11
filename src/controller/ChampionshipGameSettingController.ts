@@ -75,6 +75,34 @@ export default class ChampionshipGameSettingController {
       });
   }
 
+  public static findByChampionshipId(req: Request, res: Response): void {
+    const championship = getManager().create(Championship, {
+      id: Number.parseInt(req.params.championship, 10),
+    });
+
+    getManager()
+      .find(ChampionshipGameSetting, {
+        loadRelationIds: true,
+        where: {
+          championship,
+        },
+      })
+      .then((championshipGameSettings) => {
+        logger.info(
+          `Found ${championshipGameSettings.length} Championship Game Settings of championship ${championship.id}`
+        );
+
+        ResponseHelper.send(res, HttpStatusCode.OK, championshipGameSettings);
+      })
+      .catch((ex) => {
+        logger.warn(
+          `Failed to find Championship Game Settings of championship ${championship.id} due to ${ex.message}`
+        );
+
+        ResponseHelper.send(res, HttpStatusCode.INTERNAL_SERVER_ERROR);
+      });
+  }
+
   public static create(req: Request, res: Response): void {
     const championshipGameSetting: ChampionshipGameSetting = req.app.locals.ChampionshipGameSetting;
     championshipGameSetting.championship = getManager().create(Championship, {

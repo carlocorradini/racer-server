@@ -10,8 +10,8 @@ const router = Router();
 
 const addChampionshipToBody = () => {
   return (req: Request, _res: Response, next: NextFunction) => {
-    const { id } = req.params;
-    if (id !== undefined) req.body.championship = Number.parseInt(id, 10);
+    const { championship } = req.params;
+    if (championship !== undefined) req.body.championship = Number.parseInt(championship, 10);
     next();
   };
 };
@@ -85,7 +85,21 @@ router.get(
 );
 
 router.get(
-  '/:championship/:user?',
+  '/:championship',
+  ValidatorMiddleware.validateChain(
+    checkSchema({
+      championship: {
+        in: ['params'],
+        isInt: true,
+        errorMessage: 'Invalid Championship id',
+      },
+    })
+  ),
+  UserChampionshipController.findByChampionshipId
+);
+
+router.get(
+  '/:championship/:user',
   ValidatorMiddleware.validateChain(
     checkSchema({
       championship: {
@@ -97,7 +111,6 @@ router.get(
         in: ['params'],
         isUUID: true,
         errorMessage: 'Invalid User id',
-        optional: true,
       },
     })
   ),
@@ -111,12 +124,12 @@ router.post(
 );
 
 router.patch(
-  '/:id',
+  '/:championship',
   UserRoleMiddleware.allowOnlyWhenParams(UserRole.ADMIN, 'points'),
   addChampionshipToBody(),
   ValidatorMiddleware.validateChain(
     checkSchema({
-      id: {
+      championship: {
         in: ['params'],
         isInt: true,
         errorMessage: 'Invalid Championship id',
@@ -128,10 +141,10 @@ router.patch(
 );
 
 router.delete(
-  '/:id',
+  '/:championship',
   ValidatorMiddleware.validateChain(
     checkSchema({
-      id: {
+      championship: {
         in: ['params'],
         isInt: true,
         errorMessage: 'Invalid Championship id',

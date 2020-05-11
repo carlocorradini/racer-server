@@ -45,7 +45,7 @@ router.get(
         isString: true,
         optional: true,
       },
-      manifacturer: {
+      manufacturer: {
         in: ['query'],
         isInt: true,
         toInt: true,

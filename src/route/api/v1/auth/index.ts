@@ -4,7 +4,7 @@ import user from './user';
 import user_championship from './user_championship';
 import car from './car';
 // eslint-disable-next-line camelcase
-import car_manifacturer from './car_manifacturer';
+import car_manufacturer from './car_manufacturer';
 import circuit from './circuit';
 import team from './team';
 import championship from './championship';
@@ -23,7 +23,7 @@ router.use('/user_championship', user_championship);
 
 router.use('/car', car);
 
-router.use('/car_manifacturer', car_manifacturer);
+router.use('/car_manufacturer', car_manufacturer);
 
 router.use('/circuit', circuit);
 

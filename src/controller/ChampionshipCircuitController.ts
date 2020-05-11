@@ -76,6 +76,34 @@ export default class ChampionshipCircuitController {
       });
   }
 
+  public static findByChampionshipId(req: Request, res: Response): void {
+    const championship = getManager().create(Championship, {
+      id: Number.parseInt(req.params.championship, 10),
+    });
+
+    getManager()
+      .find(ChampionshipCircuit, {
+        loadRelationIds: true,
+        where: {
+          championship,
+        },
+      })
+      .then((championshipCircuits) => {
+        logger.info(
+          `Found ${championshipCircuits.length} Championship Circuits of championship ${championship.id}`
+        );
+
+        ResponseHelper.send(res, HttpStatusCode.OK, championshipCircuits);
+      })
+      .catch((ex) => {
+        logger.warn(
+          `Failed to find Championship Circuits of championship ${championship.id} due to ${ex.message}`
+        );
+
+        ResponseHelper.send(res, HttpStatusCode.INTERNAL_SERVER_ERROR);
+      });
+  }
+
   public static create(req: Request, res: Response): void {
     const championshipCircuit: ChampionshipCircuit = req.app.locals.ChampionshipCircuit;
     championshipCircuit.championship = getManager().create(Championship, {

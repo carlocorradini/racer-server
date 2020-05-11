@@ -11,7 +11,7 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { IsEmpty } from 'class-validator';
-import CarManifacturer from './CarManifacturer';
+import CarManufacturer from './CarManufacturer';
 
 @Entity('car')
 @Check(`"id" > 0`)
@@ -23,12 +23,12 @@ export default class Car {
   @Column({ name: 'name', length: 64, unique: true })
   name!: string;
 
-  @ManyToOne(() => CarManifacturer, (manifacturer) => manifacturer.cars, {
+  @ManyToOne(() => CarManufacturer, (manifacturer) => manifacturer.cars, {
     nullable: false,
     onDelete: 'CASCADE',
   })
-  @JoinColumn({ name: 'manifacturer_id' })
-  manifacturer!: CarManifacturer;
+  @JoinColumn({ name: 'manufacturer_id' })
+  manufacturer!: CarManufacturer;
 
   @CreateDateColumn({ name: 'created_at', select: false, update: false })
   @IsEmpty({ always: true })

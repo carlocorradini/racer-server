@@ -3,7 +3,7 @@
 import { Request, Response } from 'express';
 import { getManager } from 'typeorm';
 import logger from '@app/logger';
-import CarManifacturer from '@app/db/entity/CarManifacturer';
+import CarManufacturer from '@app/db/entity/CarManufacturer';
 import { ResponseHelper, HttpStatusCode } from '@app/helper';
 
 export default class CarManifacturerController {
@@ -11,13 +11,13 @@ export default class CarManifacturerController {
     const { limit, offset, sort, sort_order, id, name } = req.query;
 
     getManager()
-      .find(CarManifacturer, {
+      .find(CarManufacturer, {
         ...(limit !== undefined && { take: (limit as unknown) as number }),
         ...(offset !== undefined && { skip: (offset as unknown) as number }),
         ...(sort !== undefined &&
           sort_order !== undefined && {
             order: {
-              [sort as keyof CarManifacturer]: sort_order,
+              [sort as keyof CarManufacturer]: sort_order,
             },
           }),
         loadRelationIds: true,
@@ -42,7 +42,7 @@ export default class CarManifacturerController {
     const { id } = req.params;
 
     getManager()
-      .findOneOrFail(CarManifacturer, id, { loadRelationIds: true })
+      .findOneOrFail(CarManufacturer, id, { loadRelationIds: true })
       .then((carManifacturer) => {
         logger.info(`Found Car Manifacturer ${carManifacturer.id}`);
 
