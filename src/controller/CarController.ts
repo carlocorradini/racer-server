@@ -20,7 +20,7 @@ export default class CarController {
               [sort as keyof Car]: sort_order,
             },
           }),
-        loadRelationIds: true,
+        relations: ['manufacturer'],
         where: {
           ...(id !== undefined && { id }),
           ...(name !== undefined && { name }),
@@ -43,7 +43,7 @@ export default class CarController {
     const { id } = req.params;
 
     getManager()
-      .findOneOrFail(Car, id, { loadRelationIds: true })
+      .findOneOrFail(Car, id, { relations: ['manufacturer'] })
       .then((car) => {
         logger.info(`Found Car ${car.id}`);
 

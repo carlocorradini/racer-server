@@ -144,7 +144,7 @@ export default class User {
   @IsInt({ groups: [UserValidationGroup.CREATION, UserValidationGroup.UPDATE] })
   @IsPositive({ groups: [UserValidationGroup.CREATION, UserValidationGroup.UPDATE] })
   @IsValidCar({ groups: [UserValidationGroup.CREATION, UserValidationGroup.UPDATE] })
-  @IsOptional({ groups: [UserValidationGroup.CREATION, UserValidationGroup.UPDATE] })
+  @IsOptional({ groups: [UserValidationGroup.UPDATE] })
   favorite_car!: Car;
 
   @ManyToOne(() => Circuit, { nullable: true, onDelete: 'SET NULL' })
@@ -152,7 +152,7 @@ export default class User {
   @IsInt({ groups: [UserValidationGroup.CREATION, UserValidationGroup.UPDATE] })
   @IsPositive({ groups: [UserValidationGroup.CREATION, UserValidationGroup.UPDATE] })
   @IsValidCircuit({ groups: [UserValidationGroup.CREATION, UserValidationGroup.UPDATE] })
-  @IsOptional({ groups: [UserValidationGroup.CREATION, UserValidationGroup.UPDATE] })
+  @IsOptional({ groups: [UserValidationGroup.UPDATE] })
   favorite_circuit!: Circuit;
 
   @ManyToOne(() => Circuit, { nullable: true, onDelete: 'SET NULL' })
@@ -160,7 +160,7 @@ export default class User {
   @IsInt({ groups: [UserValidationGroup.CREATION, UserValidationGroup.UPDATE] })
   @IsPositive({ groups: [UserValidationGroup.CREATION, UserValidationGroup.UPDATE] })
   @IsValidCircuit({ groups: [UserValidationGroup.CREATION, UserValidationGroup.UPDATE] })
-  @IsOptional({ groups: [UserValidationGroup.CREATION, UserValidationGroup.UPDATE] })
+  @IsOptional({ groups: [UserValidationGroup.UPDATE] })
   hated_circuit!: Circuit;
 
   @OneToMany(() => UserChampionship, (userChampionship) => userChampionship.user)
