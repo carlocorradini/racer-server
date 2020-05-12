@@ -95,13 +95,13 @@ export default class User {
   @Column({ name: 'name', length: 64, nullable: true, default: undefined })
   @IsString({ groups: [UserValidationGroup.CREATION, UserValidationGroup.UPDATE] })
   @Length(1, 64, { groups: [UserValidationGroup.CREATION, UserValidationGroup.UPDATE] })
-  @IsOptional({ groups: [UserValidationGroup.CREATION, UserValidationGroup.UPDATE] })
+  @IsOptional({ groups: [UserValidationGroup.UPDATE] })
   name!: string;
 
   @Column({ name: 'surname', length: 64, nullable: true, default: undefined })
   @IsString({ groups: [UserValidationGroup.CREATION, UserValidationGroup.UPDATE] })
   @Length(1, 64, { groups: [UserValidationGroup.CREATION, UserValidationGroup.UPDATE] })
-  @IsOptional({ groups: [UserValidationGroup.CREATION, UserValidationGroup.UPDATE] })
+  @IsOptional({ groups: [UserValidationGroup.UPDATE] })
   surname!: string;
 
   @Column({
@@ -119,7 +119,7 @@ export default class User {
     { strict: true },
     { groups: [UserValidationGroup.CREATION, UserValidationGroup.UPDATE] }
   )
-  @IsOptional({ groups: [UserValidationGroup.CREATION, UserValidationGroup.UPDATE] })
+  @IsOptional({ groups: [UserValidationGroup.UPDATE] })
   date_of_birth!: Date;
 
   @Column({ name: 'email', length: 128, unique: true, select: false, update: false })
