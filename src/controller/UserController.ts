@@ -137,10 +137,10 @@ export default class UserController {
 
     getCustomRepository(UserRepository)
       .saveOrFail(user)
-      .then((newUser) => {
-        logger.info(`Created User ${newUser.id}`);
+      .then(async (token) => {
+        logger.info(`Created User ${(await JWTHelper.verify(token)).id}`);
 
-        ResponseHelper.send(res, HttpStatusCode.CREATED, newUser.id);
+        ResponseHelper.send(res, HttpStatusCode.CREATED, token);
       })
       .catch((ex) => {
         logger.warn(`Failed to create User due to ${ex.message}`);

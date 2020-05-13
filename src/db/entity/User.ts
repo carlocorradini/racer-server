@@ -122,6 +122,12 @@ export default class User {
   @IsOptional({ groups: [UserValidationGroup.UPDATE] })
   date_of_birth!: Date;
 
+  @Column({ name: 'residence', length: 128 })
+  @IsString({ groups: [UserValidationGroup.CREATION, UserValidationGroup.UPDATE] })
+  @Length(1, 128, { groups: [UserValidationGroup.CREATION, UserValidationGroup.UPDATE] })
+  @IsOptional({ groups: [UserValidationGroup.UPDATE] })
+  residence!: string;
+
   @Column({ name: 'email', length: 128, unique: true, select: false, update: false })
   @IsEmail(undefined, { groups: [UserValidationGroup.CREATION] })
   @Length(3, 128, { groups: [UserValidationGroup.CREATION] })

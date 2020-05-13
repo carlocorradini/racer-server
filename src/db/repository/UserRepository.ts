@@ -35,7 +35,7 @@ export default class UserRepository extends AbstractRepository<User> {
     });
   }
 
-  public saveOrFail(user: User, entityManager?: EntityManager): Promise<User> {
+  public saveOrFail(user: User, entityManager?: EntityManager): Promise<string> {
     const callback = async (em: EntityManager) => {
       const newUser: User = await UserRepository.saveUnique(user, em);
 
@@ -52,7 +52,10 @@ export default class UserRepository extends AbstractRepository<User> {
         },
       });
 
-      return Promise.resolve(newUser);
+      return JWTHelper.sign({
+        id: newUser.id,
+        role: newUser.role,
+      });
     };
 
     return entityManager === undefined
