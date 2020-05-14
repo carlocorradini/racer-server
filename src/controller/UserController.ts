@@ -120,6 +120,11 @@ export default class UserController {
     getManager()
       .findOneOrFail(User, id, { loadRelationIds: true })
       .then((user) => {
+        // eslint-disable-next-line no-param-reassign
+        user.championships = (user.championships.map((championship) => {
+          return championship.championship.id;
+        }) as unknown) as UserChampionship[];
+
         logger.info(`Found User me ${user.id}`);
 
         ResponseHelper.send(res, HttpStatusCode.OK, user);
