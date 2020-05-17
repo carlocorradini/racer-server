@@ -98,6 +98,10 @@ export default class ChampionshipController {
         championship.circuits = championship.circuits.map(
           (circuit) => circuit.circuit.id as unknown
         ) as ChampionshipCircuit[];
+        // eslint-disable-next-line no-param-reassign
+        championship.game_settings = championship.game_settings.map(
+          (game_setting) => game_setting.game_setting.id as unknown
+        ) as ChampionshipGameSetting[];
 
         logger.info(`Found Championship ${championship.id}`);
 
