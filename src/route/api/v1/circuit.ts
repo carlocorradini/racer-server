@@ -64,4 +64,18 @@ router.get(
   CircuitController.findById
 );
 
+router.get(
+  '/championship/:id',
+  ValidatorMiddleware.validateChain(
+    checkSchema({
+      id: {
+        in: ['params'],
+        isInt: true,
+        errorMessage: 'Invalid Championship id',
+      },
+    })
+  ),
+  CircuitController.findByChampionshipId
+);
+
 export default router;

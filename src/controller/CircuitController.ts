@@ -5,6 +5,7 @@ import { getManager } from 'typeorm';
 import logger from '@app/logger';
 import Circuit from '@app/db/entity/Circuit';
 import { ResponseHelper, HttpStatusCode } from '@app/helper';
+import ChampionshipCircuit from '@app/db/entity/ChampionshipCircuit';
 
 export default class CircuitController {
   public static find(req: Request, res: Response): void {
@@ -53,6 +54,30 @@ export default class CircuitController {
 
         if (ex.name === 'EntityNotFound') ResponseHelper.send(res, HttpStatusCode.NOT_FOUND);
         else ResponseHelper.send(res, HttpStatusCode.INTERNAL_SERVER_ERROR);
+      });
+  }
+
+  public static findByChampionshipId(req: Request, res: Response): void {
+    const { id } = req.params;
+
+    getManager()
+      .createQueryBuilder(ChampionshipCircuit, 'cc')
+      .leftJoinAndSelect('cc.circuit', 'circuit')
+      .where('cc.championship = :championship', { championship: Number.parseInt(id, 10) })
+      .orderBy('cc.date', 'ASC')
+      .getMany()
+      .then((circuits) => {
+        // eslint-disable-next-line no-param-reassign
+        circuits = (circuits.map((circuit) => circuit.circuit) as unknown) as ChampionshipCircuit[];
+
+        logger.info(`Found ${circuits.length} Circuits of Championship ${id}`);
+
+        ResponseHelper.send(res, HttpStatusCode.OK, circuits);
+      })
+      .catch((ex) => {
+        logger.warn(`Failed to find Circuits of Championship ${id} due to ${ex.message}`);
+
+        ResponseHelper.send(res, HttpStatusCode.INTERNAL_SERVER_ERROR);
       });
   }
 }

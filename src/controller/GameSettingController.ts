@@ -5,6 +5,7 @@ import { getManager } from 'typeorm';
 import logger from '@app/logger';
 import GameSetting from '@app/db/entity/GameSetting';
 import { ResponseHelper, HttpStatusCode } from '@app/helper';
+import ChampionshipGameSetting from '@app/db/entity/ChampionshipGameSetting';
 
 export default class GameSettingController {
   public static find(req: Request, res: Response): void {
@@ -53,6 +54,31 @@ export default class GameSettingController {
 
         if (ex.name === 'EntityNotFound') ResponseHelper.send(res, HttpStatusCode.NOT_FOUND);
         else ResponseHelper.send(res, HttpStatusCode.INTERNAL_SERVER_ERROR);
+      });
+  }
+
+  public static findByChampionshipId(req: Request, res: Response): void {
+    const { id } = req.params;
+
+    getManager()
+      .createQueryBuilder(ChampionshipGameSetting, 'cgs')
+      .leftJoinAndSelect('cgs.game_setting', 'game_setting')
+      .where('cgs.championship = :championship', { championship: Number.parseInt(id, 10) })
+      .getMany()
+      .then((gameSettings) => {
+        // eslint-disable-next-line no-param-reassign
+        gameSettings = (gameSettings.map(
+          (game_setting) => game_setting.game_setting
+        ) as unknown) as ChampionshipGameSetting[];
+
+        logger.info(`Found ${gameSettings.length} Game Settings of Championship ${id}`);
+
+        ResponseHelper.send(res, HttpStatusCode.OK, gameSettings);
+      })
+      .catch((ex) => {
+        logger.warn(`Failed to find Game Settings of Championship ${id} due to ${ex.message}`);
+
+        ResponseHelper.send(res, HttpStatusCode.INTERNAL_SERVER_ERROR);
       });
   }
 }
