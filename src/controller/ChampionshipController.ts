@@ -12,6 +12,8 @@ import UserChampionship from '@app/db/entity/UserChampionship';
 import ChampionshipCircuit from '@app/db/entity/ChampionshipCircuit';
 // eslint-disable-next-line no-unused-vars
 import ChampionshipGameSetting from '@app/db/entity/ChampionshipGameSetting';
+// eslint-disable-next-line no-unused-vars
+import ChampionshipCar from '@app/db/entity/ChampionshipCar';
 
 export default class ChampionshipController {
   public static find(req: Request, res: Response): void {
@@ -60,6 +62,10 @@ export default class ChampionshipController {
             (circuit) => circuit.circuit.id as unknown
           ) as ChampionshipCircuit[];
           // eslint-disable-next-line no-param-reassign
+          championship.cars = championship.cars.map(
+            (car) => car.car.id as unknown
+          ) as ChampionshipCar[];
+          // eslint-disable-next-line no-param-reassign
           championship.game_settings = championship.game_settings.map(
             (game_setting) => game_setting.game_setting.id as unknown
           ) as ChampionshipGameSetting[];
@@ -98,6 +104,10 @@ export default class ChampionshipController {
         championship.circuits = championship.circuits.map(
           (circuit) => circuit.circuit.id as unknown
         ) as ChampionshipCircuit[];
+        // eslint-disable-next-line no-param-reassign
+        championship.cars = championship.cars.map(
+          (car) => car.car.id as unknown
+        ) as ChampionshipCar[];
         // eslint-disable-next-line no-param-reassign
         championship.game_settings = championship.game_settings.map(
           (game_setting) => game_setting.game_setting.id as unknown

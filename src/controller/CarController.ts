@@ -5,7 +5,7 @@ import { getManager } from 'typeorm';
 import logger from '@app/logger';
 import Car from '@app/db/entity/Car';
 import { ResponseHelper, HttpStatusCode } from '@app/helper';
-import UserChampionship from '@app/db/entity/UserChampionship';
+import ChampionshipCar from '@app/db/entity/ChampionshipCar';
 
 export default class CarController {
   public static find(req: Request, res: Response): void {
@@ -62,17 +62,16 @@ export default class CarController {
     const { id } = req.params;
 
     getManager()
-      .createQueryBuilder(UserChampionship, 'uc')
-      .distinctOn(['uc.car'])
-      .leftJoinAndSelect('uc.car', 'car')
+      .createQueryBuilder(ChampionshipCar, 'cc')
+      .leftJoinAndSelect('cc.car', 'car')
       .leftJoinAndSelect('car.manufacturer', 'manufacturer')
-      .where('uc.championship = :championship', { championship: Number.parseInt(id, 10) })
+      .where('cc.championship = :championship', { championship: Number.parseInt(id, 10) })
       .getMany()
       .then((cars) => {
         // eslint-disable-next-line no-param-reassign
-        cars = (cars.map((car) => car.car) as unknown) as UserChampionship[];
+        cars = (cars.map((car) => car.car) as unknown) as ChampionshipCar[];
 
-        logger.info(`Found ${cars.length} Cars of Championship ${id}`);
+        logger.info(`Found ${cars.length} Cras of Championship ${id}`);
 
         ResponseHelper.send(res, HttpStatusCode.OK, cars);
       })

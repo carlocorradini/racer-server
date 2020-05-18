@@ -8,14 +8,12 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   OneToMany,
-  ManyToMany,
-  JoinTable,
 } from 'typeorm';
 import { IsEmpty } from 'class-validator';
 import UserChampionship from './UserChampionship';
-import Car from './Car';
 import ChampionshipCircuit from './ChampionshipCircuit';
 import ChampionshipGameSetting from './ChampionshipGameSetting';
+import ChampionshipCar from './ChampionshipCar';
 
 @Entity('championship')
 @Check(`"id" > 0`)
@@ -33,17 +31,8 @@ export default class Championship {
   @Column({ name: 'forum', length: 256, unique: true })
   forum!: string;
 
-  @ManyToMany(() => Car)
-  @JoinTable({
-    name: 'championship_car',
-    joinColumn: {
-      name: 'championship_id',
-    },
-    inverseJoinColumn: {
-      name: 'car_id',
-    },
-  })
-  cars!: Car[];
+  @OneToMany(() => ChampionshipCar, (championshipCar) => championshipCar.championship)
+  cars!: ChampionshipCar[];
 
   @OneToMany(() => UserChampionship, (userChampionship) => userChampionship.championship)
   users!: UserChampionship[];
