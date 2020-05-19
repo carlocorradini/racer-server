@@ -64,4 +64,18 @@ router.get(
   TeamController.findById
 );
 
+router.get(
+  '/championship/:id',
+  ValidatorMiddleware.validateChain(
+    checkSchema({
+      id: {
+        in: ['params'],
+        isInt: true,
+        errorMessage: 'Invalid Championship id',
+      },
+    })
+  ),
+  TeamController.findByChampionshipId
+);
+
 export default router;

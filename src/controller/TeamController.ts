@@ -5,6 +5,7 @@ import { getManager } from 'typeorm';
 import logger from '@app/logger';
 import Team from '@app/db/entity/Team';
 import { ResponseHelper, HttpStatusCode } from '@app/helper';
+import UserChampionship from '@app/db/entity/UserChampionship';
 
 export default class TeamController {
   public static find(req: Request, res: Response): void {
@@ -53,6 +54,30 @@ export default class TeamController {
 
         if (ex.name === 'EntityNotFound') ResponseHelper.send(res, HttpStatusCode.NOT_FOUND);
         else ResponseHelper.send(res, HttpStatusCode.INTERNAL_SERVER_ERROR);
+      });
+  }
+
+  public static findByChampionshipId(req: Request, res: Response): void {
+    const { id } = req.params;
+
+    getManager()
+      .createQueryBuilder(UserChampionship, 'uc')
+      .leftJoinAndSelect('uc.team', 'team')
+      .distinctOn(['team.id'])
+      .where('uc.championship = :championship', { championship: Number.parseInt(id, 10) })
+      .getMany()
+      .then((teams) => {
+        // eslint-disable-next-line no-param-reassign
+        teams = (teams.map((team) => team.team) as unknown) as UserChampionship[];
+
+        logger.info(`Found ${teams.length} Teams of Championship ${id}`);
+
+        ResponseHelper.send(res, HttpStatusCode.OK, teams);
+      })
+      .catch((ex) => {
+        logger.warn(`Failed to find Teams of Championship ${id} due to ${ex.message}`);
+
+        ResponseHelper.send(res, HttpStatusCode.INTERNAL_SERVER_ERROR);
       });
   }
 }
