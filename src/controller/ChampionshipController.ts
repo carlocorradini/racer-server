@@ -16,6 +16,23 @@ import ChampionshipGameSetting from '@app/db/entity/ChampionshipGameSetting';
 import ChampionshipCar from '@app/db/entity/ChampionshipCar';
 
 export default class ChampionshipController {
+  private static async addTeams(championship: Championship): Promise<Championship> {
+    // eslint-disable-next-line no-param-reassign
+    championship.teams = Array.from(
+      new Set(
+        ((
+          await getManager()
+            .createQueryBuilder(UserChampionship, 'uc')
+            .innerJoinAndSelect('uc.team', 'team')
+            .where('uc.championship = :id', { id: championship.id })
+            .getMany()
+        ).map((team) => (team.team.id as unknown) as UserChampionship) as unknown) as number[]
+      )
+    );
+
+    return Promise.resolve(championship);
+  }
+
   public static find(req: Request, res: Response): void {
     const {
       limit,
@@ -50,6 +67,13 @@ export default class ChampionshipController {
           ...(id !== undefined && { id }),
           ...(name !== undefined && { name }),
         },
+      })
+      .then(async (championships) => {
+        for (let i = 0; i < championships.length; i += 1) {
+          // eslint-disable-next-line no-await-in-loop
+          await ChampionshipController.addTeams(championships[i]);
+        }
+        return Promise.resolve(championships);
       })
       .then((championships) => {
         championships.forEach((championship) => {
@@ -95,7 +119,8 @@ export default class ChampionshipController {
 
     getManager()
       .findOneOrFail(Championship, id, { loadRelationIds: true })
-      .then((championship) => {
+      .then(async (championship) => {
+        await ChampionshipController.addTeams(championship);
         // eslint-disable-next-line no-param-reassign
         championship.users = (championship.users.map(
           (user) => user.user.id

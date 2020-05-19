@@ -14,6 +14,8 @@ import UserChampionship from './UserChampionship';
 import ChampionshipCircuit from './ChampionshipCircuit';
 import ChampionshipGameSetting from './ChampionshipGameSetting';
 import ChampionshipCar from './ChampionshipCar';
+// eslint-disable-next-line no-unused-vars
+import Team from './Team';
 
 @Entity('championship')
 @Check(`"id" > 0`)
@@ -39,6 +41,8 @@ export default class Championship {
 
   @OneToMany(() => ChampionshipCircuit, (championshipCircuit) => championshipCircuit.championship)
   circuits!: ChampionshipCircuit[];
+
+  teams!: number[];
 
   @OneToMany(
     () => ChampionshipGameSetting,
