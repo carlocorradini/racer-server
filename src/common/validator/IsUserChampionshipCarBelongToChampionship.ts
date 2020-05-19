@@ -23,19 +23,21 @@ export class IsUserChampionshipCarBelongToChampionshipConstraint
     this.car = id;
     this.championship = ((args.object as UserChampionship).championship as unknown) as number;
 
+    if (this.car === undefined || this.championship === undefined) return false;
+
     return (
       (await getManager()
-        .createQueryBuilder('Championship', 'championship')
-        .innerJoin('championship.cars', 'cars', 'cars.id = :id', { id: this.car })
-        .where('championship.id = :id', { id: this.championship })
+        .createQueryBuilder('ChampionshipCar', 'cc')
+        .where('cc.championship = :championship', { championship: 1 })
+        .andWhere('cc.car = :car', { car: 1 })
         .getCount()) === 1
     );
   }
 
   defaultMessage(args: ValidationArguments) {
-    return `${args.property} ${this.car} cannot be used in Championship ${
-      this.championship !== undefined ? this.championship : '?'
-    }`;
+    return `${args.property} ${
+      this.car !== undefined ? this.car : '?'
+    } cannot be used in Championship ${this.championship !== undefined ? this.championship : '?'}`;
   }
 }
 
