@@ -14,6 +14,8 @@ import ChampionshipCircuit from '@app/db/entity/ChampionshipCircuit';
 import ChampionshipGameSetting from '@app/db/entity/ChampionshipGameSetting';
 // eslint-disable-next-line no-unused-vars
 import ChampionshipCar from '@app/db/entity/ChampionshipCar';
+// eslint-disable-next-line no-unused-vars
+import ChampionshipPhoto from '@app/db/entity/ChampionshipPhoto';
 
 export default class ChampionshipController {
   private static async addTeams(championship: Championship): Promise<Championship> {
@@ -93,6 +95,10 @@ export default class ChampionshipController {
           championship.game_settings = championship.game_settings.map(
             (game_setting) => game_setting.game_setting.id as unknown
           ) as ChampionshipGameSetting[];
+          // eslint-disable-next-line no-param-reassign
+          championship.photos = championship.photos.map(
+            (photo) => photo.photo as unknown
+          ) as ChampionshipPhoto[];
         });
         // eslint-disable-next-line no-param-reassign
         championships = championships.filter(
@@ -137,6 +143,10 @@ export default class ChampionshipController {
         championship.game_settings = championship.game_settings.map(
           (game_setting) => game_setting.game_setting.id as unknown
         ) as ChampionshipGameSetting[];
+        // eslint-disable-next-line no-param-reassign
+        championship.photos = championship.photos.map(
+          (photo) => photo.photo as unknown
+        ) as ChampionshipPhoto[];
 
         logger.info(`Found Championship ${championship.id}`);
 

@@ -14,6 +14,7 @@ import UserChampionship from './UserChampionship';
 import ChampionshipCircuit from './ChampionshipCircuit';
 import ChampionshipGameSetting from './ChampionshipGameSetting';
 import ChampionshipCar from './ChampionshipCar';
+import ChampionshipPhoto from './ChampionshipPhoto';
 
 @Entity('championship')
 @Check(`"id" > 0`)
@@ -39,6 +40,9 @@ export default class Championship {
 
   @OneToMany(() => ChampionshipCircuit, (championshipCircuit) => championshipCircuit.championship)
   circuits!: ChampionshipCircuit[];
+
+  @OneToMany(() => ChampionshipPhoto, (championshipPhoto) => championshipPhoto.championship)
+  photos!: ChampionshipPhoto[];
 
   teams!: number[];
 

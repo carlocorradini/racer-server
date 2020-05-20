@@ -9,3 +9,4 @@ export { default as ChampionshipCircuitController } from './ChampionshipCircuitC
 export { default as ChampionshipCarController } from './ChampionshipCarController';
 export { default as GameSettingController } from './GameSettingController';
 export { default as ChampionshipGameSettingController } from './ChampionshipGameSettingController';
+export { default as ChampionshipPhotoController } from './ChampionshipPhotoController';
