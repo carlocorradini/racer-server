@@ -124,7 +124,7 @@ router.post(
 );
 
 router.patch(
-  '/:championship',
+  '/:championship/:user?',
   UserRoleMiddleware.allowOnlyWhenParams(UserRole.ADMIN, 'points'),
   addChampionshipToBody(),
   ValidatorMiddleware.validateChain(
@@ -133,6 +133,12 @@ router.patch(
         in: ['params'],
         isInt: true,
         errorMessage: 'Invalid Championship id',
+      },
+      user: {
+        in: ['params'],
+        isUUID: true,
+        errorMessage: 'Invalid User id',
+        optional: true,
       },
     })
   ),

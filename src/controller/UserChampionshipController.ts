@@ -153,7 +153,9 @@ export default class UserChampionshipController {
 
   public static update(req: Request, res: Response): void {
     const userChampionship: UserChampionship = req.app.locals.UserChampionship;
-    userChampionship.user = getManager().create(User, { id: req.user?.id ? req.user.id : '' });
+    userChampionship.user = getManager().create(User, {
+      id: req.params.user !== undefined ? req.params.user : req.user?.id,
+    });
     userChampionship.championship = getManager().create(Championship, {
       id: Number.parseInt(req.params.championship, 10),
     });
