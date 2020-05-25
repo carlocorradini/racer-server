@@ -6,7 +6,6 @@ import hbs from 'nodemailer-express-handlebars';
 import config from '@app/config';
 import logger from '@app/logger';
 import { ConfigurationError } from '@app/common/error';
-//
 
 export default class EmailService {
   private static transport: Mail;
