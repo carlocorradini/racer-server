@@ -7,7 +7,7 @@ const logger = createLogger({
   exitOnError: false,
   format: format.combine(
     format.label({
-      label: path.basename(process.mainModule !== undefined ? process.mainModule.filename : '?'),
+      label: path.basename(require.main !== undefined ? require.main.filename : '?'),
     }),
     format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss:SSS' })
   ),
